@@ -1,63 +1,76 @@
 package com.example.democursach;
 
-import com.example.democursach.Classes.IsotopesOfChemical_Nb;
-import com.example.democursach.Classes.Radionuclide;
-import com.example.democursach.Classes.StableIsotope;
+import com.example.democursach.Classes.Data;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.function.BiFunction;
+import java.util.Random;
+import java.util.ResourceBundle;
 
-public class HelloController {
+import static com.example.democursach.Classes.Data.a_list;
+import static com.example.democursach.Classes.Data.t_list;
+
+public class HelloController implements Initializable {
     @FXML
     private TextField A_textField;
     @FXML
-    private TextField B_textField;
+    private AnchorPane hello_scene;
 
-    private final Integer t = 864000; // время
-    private Integer B_0=0;
-    private Integer D_0=0;
+    public static final Integer t = 864000; // время
 
-    public void plus() {
-        double initialValue = Integer.parseInt(A_textField.getText()); // Значение
-        double initialTime = 1; // начало по времени
-        double totalTime = t; // конец по времени
-        double timeStep = 1; // Шаг
+    public void plus(ActionEvent event) throws IOException {
+//        Random random = new Random();
+//        double k = random.nextDouble(Math.log(2)/4320000, 1);
+        double k =Math.log(2)/4320000;
+        System.out.println("Решение уравнения: " + k);
+        double A0 = Integer.parseInt(A_textField.getText()); // Начальное значение A
 
-        BiFunction<Double, Double, Double> equation = (A, t) -> 2 * t; // Пример: dA/dt = 2t
+        // Решение дифференциального уравнения
+        solveDifferentialEquation(k, A0, t);
 
-        double result = solveDifferentialEquation(equation, initialValue, timeStep, totalTime);
-        System.out.println("Решение уравнения: " + result);
+        System.out.println("Решение уравнения: " + a_list);
+
+        switchToGraphScene(event);
+
     }
+    public static void solveDifferentialEquation(double k, double A0, double dt) {
+        double A = A0;
+        Data.A = A;
 
-    public static double solveDifferentialEquation(BiFunction<Double, Double, Double> equation, double initialValue, double timeStep, double totalTime) {
-        double currentValue = initialValue;
-        double currentTime = 0;
-
-        while (currentTime < totalTime) {
-            double derivative = equation.apply(currentValue, currentTime);
-            currentValue += derivative * timeStep;
-            currentTime += timeStep;
+        for (int i = 0; i <= dt*10; i+=dt) {
+            // Вычисление нового значения A с использованием метода Эйлера
+            if (i>0){
+                A = A + dt * (-k * A);
+                a_list.add(A);
+                t_list.add(i);
+            }
+            // Вывод результатов
+            System.out.println("Step " + i + ": A = " + A);
         }
-
-        return currentValue;
     }
 
-//    public void switchToGraphScene(ActionEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("graph-view.fxml")));
-//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//    }
+
+    public void switchToGraphScene(ActionEvent event) throws IOException {
+        AnchorPane graph_scene = FXMLLoader.load(getClass().getResource("graph-view.fxml"));
+        hello_scene.getChildren().removeAll();
+        hello_scene.getChildren().setAll(graph_scene);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }
