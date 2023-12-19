@@ -32,16 +32,11 @@ public class HelloController implements Initializable {
     public static final Integer t = 864000; // время
 
     public void plus(ActionEvent event) throws IOException {
-//        Random random = new Random();
-//        double k = random.nextDouble(Math.log(2)/4320000, 1);
         double k =Math.log(2)/4320000;
-        System.out.println("Решение уравнения: " + k);
         double A0 = Integer.parseInt(A_textField.getText()); // Начальное значение A
 
         // Решение дифференциального уравнения
         solveDifferentialEquation(k, A0, t);
-
-        System.out.println("Решение уравнения: " + a_list);
 
         switchToGraphScene(event);
 
@@ -49,16 +44,11 @@ public class HelloController implements Initializable {
     public static void solveDifferentialEquation(double k, double A0, double dt) {
         double A = A0;
         Data.A = A;
-
         for (int i = 0; i <= dt*10; i+=dt) {
             // Вычисление нового значения A с использованием метода Эйлера
-            if (i>0){
-                A = A + dt * (-k * A);
-                a_list.add(A);
-                t_list.add(i);
-            }
-            // Вывод результатов
-            System.out.println("Step " + i + ": A = " + A);
+            A = Data.A * Math.exp(-k * i);
+            a_list.add(A);
+            t_list.add(i);
         }
     }
 
