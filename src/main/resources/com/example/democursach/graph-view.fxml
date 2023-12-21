@@ -7,6 +7,6 @@
    <children>
       <Button fx:id="b_button" layoutX="14.0" layoutY="400.0" mnemonicParsing="false" onAction="#AddB" text="Посчитать для B" />
       <Button fx:id="d_button" layoutX="195.0" layoutY="400.0" mnemonicParsing="false" onAction="#AddD" text="Посчитать для D" />
-      <Button fx:id="graph_button" layoutX="348.0" layoutY="400.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="Просмотреть возможные превращения" />
+      <Button fx:id="graph_button" layoutX="348.0" layoutY="400.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="Нуклидная карта" />
    </children>
 </AnchorPane>

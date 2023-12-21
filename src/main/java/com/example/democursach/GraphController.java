@@ -1,6 +1,5 @@
 package com.example.democursach;
 
-import com.example.democursach.Classes.Data;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +19,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static com.example.democursach.Classes.Data.*;
+import static com.example.democursach.Data.*;
 import static com.example.democursach.HelloController.t;
 
 public class GraphController implements Initializable {

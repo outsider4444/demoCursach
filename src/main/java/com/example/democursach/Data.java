@@ -1,4 +1,4 @@
-package com.example.democursach.Classes;
+package com.example.democursach;
 
 import java.util.ArrayList;
 
