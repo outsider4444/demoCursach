@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import static com.example.democursach.Data.*;
@@ -33,13 +34,15 @@ public class GraphController implements Initializable {
     @FXML
     public Button d_button;
 
+    Random random = new Random();
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel("days");
+        xAxis.setLabel("Секунды");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Power");
+//        yAxis.setLabel("Power");
 
         lineChart = new LineChart<>(xAxis, yAxis);
         if (Data.a_list.size()>0 && Data.t_list.size()>0){
@@ -47,15 +50,17 @@ public class GraphController implements Initializable {
             data.setName("A");
             for (int i = 0; i < t_list.size(); i++){
                 data.getData().add(new XYChart.Data<>(t_list.get(i), a_list.get(i)));
-                System.out.println(t_list.get(i) + " " + a_list.get(i));
+//                System.out.println(t_list.get(i) + " " + a_list.get(i));
             }
             lineChart.getData().add(data);
+            lineChart.setPrefWidth(550);
             graph_scene.getChildren().add(lineChart);
         }
     }
 
     public void AddB(ActionEvent event) throws IOException{
-        double k1 =Math.log(2)/4320000;
+        int next_k = random.nextInt(10000000-100000+1)+100000;
+        double k1 =Math.log(2)/next_k;
 
         solveDifferentialEquationB(k1, t);
         if (Data.b_list.size()>0 && Data.t_list.size()>0){
@@ -70,8 +75,10 @@ public class GraphController implements Initializable {
     }
 
     public void AddD(ActionEvent event) throws IOException{
-        double k1 =Math.log(2)/4320000;
-        double k2 =Math.log(2)/1500;
+        int next_k1 = random.nextInt(10000000-100000+1)+100000;
+        int next_k2 = random.nextInt(10000-1000+1)+1000;
+        double k1 =Math.log(2)/next_k1;
+        double k2 =Math.log(2)/next_k2;
 
         // Решение дифференциального уравнения
         solveDifferentialEquationD(k1, k2, t);
@@ -106,7 +113,22 @@ public class GraphController implements Initializable {
             t_list.add(i);
         }
     }
+    public void switchToHelloScene(ActionEvent event) throws IOException {
 
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToIsotopeScene(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("isotope-view.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
     public void switchToGraphScene(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("table-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

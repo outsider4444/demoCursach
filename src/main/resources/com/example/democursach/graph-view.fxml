@@ -5,8 +5,11 @@
 
 <AnchorPane fx:id="graph_scene" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.democursach.GraphController">
    <children>
-      <Button fx:id="b_button" layoutX="14.0" layoutY="400.0" mnemonicParsing="false" onAction="#AddB" text="Посчитать для B" />
-      <Button fx:id="d_button" layoutX="195.0" layoutY="400.0" mnemonicParsing="false" onAction="#AddD" text="Посчитать для D" />
-      <Button fx:id="graph_button" layoutX="348.0" layoutY="400.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="Нуклидная карта" />
+      <Button layoutX="14.0" layoutY="411.0" mnemonicParsing="false" onAction="#switchToHelloScene" text="Главная" />
+      <Button fx:id="b_button" layoutX="398.0" layoutY="411.0" mnemonicParsing="false" onAction="#AddB" text="Найти B" />
+      <Button fx:id="d_button" layoutX="524.0" layoutY="411.0" mnemonicParsing="false" onAction="#AddD" text="Найти D" />
+      <Button layoutX="274.0" layoutY="411.0" mnemonicParsing="false" onAction="#switchToIsotopeScene" text="Карта изотопов" />
+<!--      <Button fx:id="graph_button" layoutX="477.0" layoutY="411.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="Нуклидная карта" />-->
+
    </children>
 </AnchorPane>

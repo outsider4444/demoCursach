@@ -6,10 +6,9 @@
 
 <Pane prefHeight="700.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.democursach.IsotopeController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="400.0" layoutX="29.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/image.png" />
-         </image></ImageView>
+      <ImageView fx:id="imageView" fitHeight="600.0" fitWidth="400.0" layoutX="29.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+
+      </ImageView>
       <Button layoutX="29.0" layoutY="648.0" onAction="#switchToHelloScene" mnemonicParsing="false" text="Главная" />
    </children>
 </Pane>

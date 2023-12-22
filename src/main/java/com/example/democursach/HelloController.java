@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -34,13 +37,35 @@ public class HelloController implements Initializable {
     @FXML
     private Pane hello_scene;
 
+    @FXML
+    private ChoiceBox type_nuclide;
+    @FXML
+    private ChoiceBox type_reaction;
+
     public static final Integer t = 864000; // время
 
     public void plus(ActionEvent event) throws IOException {
         Random random = new Random();
-        int next_k = random.nextInt(10000000-1000000+1)+1000000;
+        int next_k = random.nextInt(10000000-100000+1)+100000;
         double k =Math.log(2)/next_k;
         double A0 = Integer.parseInt(A_textField.getText()); // Начальное значение A
+        String nuclide = (String) type_nuclide.getValue();
+        String reaction = (String) type_reaction.getValue();
+        Data.nuclide = nuclide;
+        Data.reaction = reaction;
+        String img_path = "i128.png";
+        if (nuclide == "128-I"){
+            img_path = "i128.png";
+        }
+        if (nuclide == "127-I"){
+            img_path = "i127.png";
+        }
+        if (nuclide == "129-I"){
+            img_path = "i129.png";
+
+        }
+        nuclide_image = img_path;
+
 
         // Решение дифференциального уравнения
         solveDifferentialEquation(k, A0, t);
@@ -79,20 +104,38 @@ public class HelloController implements Initializable {
     }
 
     public void copyExcel(ActionEvent event) throws IOException {
-        String desktop_path = System.getProperty("user.home") + "/Desktop";
-        File file = new File(System.getProperty("user.dir")+"/files/kinetika.xlsx");
-        File new_file = new File(desktop_path+"/kinetika.xlsx");
+        String fileName = "kinetika.xlsx";
+
         try {
-            FileUtils.copyFile(file, new_file);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        // Получаем путь к рабочему столу пользователя
+        String desktopPath = System.getProperty("user.home") + "/Desktop";
+
+        // Создаем путь к файлу внутри проекта
+        Path sourcePath = Paths.get("src/main/resources/files/" + fileName);
+
+        // Создаем путь для файла на рабочем столе
+        Path destPath = Paths.get(desktopPath, fileName);
+
+        // Копируем файл с заменой, если файл уже существует
+        Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Статус");
+        alert.setContentText("Экспортировано успешно!");
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                System.out.println("Pressed OK.");
+            }
+        });
+        } catch (IOException exception){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Статус");
-            alert.setContentText("Экспортировано успешно!");
+            alert.setContentText("Ошибка!");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
                     System.out.println("Pressed OK.");
                 }
             });
-        } catch (IOException exception){
             exception.printStackTrace();
         }
     }
@@ -100,5 +143,11 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // pass
+//        String[] nuclides = {"128-Xe", "129-Xe", "130-Xe", "127-I", "128-I", "129-I", "126-Te", "127-Te", "128-te"};
+        String[] nuclides = {"127-I", "128-I", "129-I"};
+        String[] reactions = {"ꞵ+ распад", "ꞵ- распад", "(n,3n)", "(n, γ)", "(n,p)", "(n,p)", };
+        type_reaction.getItems().addAll(reactions);
+        type_nuclide.getItems().addAll(nuclides);
+
     }
 }
