@@ -21,7 +21,6 @@ public class IsotopeController implements Initializable {
     @FXML
     private ImageView imageView;
     public void switchToHelloScene(ActionEvent event) throws IOException {
-
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

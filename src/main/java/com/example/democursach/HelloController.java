@@ -39,20 +39,16 @@ public class HelloController implements Initializable {
 
     @FXML
     private ChoiceBox type_nuclide;
-    @FXML
-    private ChoiceBox type_reaction;
 
     public static final Integer t = 864000; // время
 
     public void plus(ActionEvent event) throws IOException {
         Random random = new Random();
         int next_k = random.nextInt(10000000-100000+1)+100000;
-        double k =Math.log(2)/next_k;
+        double k = Math.log(2)/next_k;
         double A0 = Integer.parseInt(A_textField.getText()); // Начальное значение A
         String nuclide = (String) type_nuclide.getValue();
-        String reaction = (String) type_reaction.getValue();
         Data.nuclide = nuclide;
-        Data.reaction = reaction;
         String img_path = "i128.png";
         if (nuclide == "128-I"){
             img_path = "i128.png";
@@ -65,7 +61,6 @@ public class HelloController implements Initializable {
 
         }
         nuclide_image = img_path;
-
 
         // Решение дифференциального уравнения
         solveDifferentialEquation(k, A0, t);
@@ -88,6 +83,15 @@ public class HelloController implements Initializable {
             t_list.add(i);
         }
     }
+
+    public void switchToTable(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("table-view.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     public void switchToGraphScene(ActionEvent event) throws IOException {
         AnchorPane graph_scene = FXMLLoader.load(getClass().getResource("graph-view.fxml"));
@@ -145,8 +149,8 @@ public class HelloController implements Initializable {
         // pass
 //        String[] nuclides = {"128-Xe", "129-Xe", "130-Xe", "127-I", "128-I", "129-I", "126-Te", "127-Te", "128-te"};
         String[] nuclides = {"127-I", "128-I", "129-I"};
-        String[] reactions = {"ꞵ+ распад", "ꞵ- распад", "(n,3n)", "(n, γ)", "(n,p)", "(n,p)", };
-        type_reaction.getItems().addAll(reactions);
+//        String[] reactions = {"ꞵ+ распад", "ꞵ- распад", "(n,3n)", "(n, γ)", "(n,p)", "(n,p)", };
+//        type_reaction.getItems().addAll(reactions);
         type_nuclide.getItems().addAll(nuclides);
 
     }
